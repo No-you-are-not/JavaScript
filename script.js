@@ -60,9 +60,11 @@ alert(`${random} > ${userNumber} = ${random > userNumber}`)
 //8
 let str = prompt("what do you like to study?", "Мне нравится изучать Front-end");
 let str2 = prompt("what else do you like to study?");
-let result = "Мне нравится изучать";
-alert(`${result} ${str2}`);
-
+if ((str.toLowerCase()).includes(str2.toLowerCase())){
+    alert("you've already said it");
+}
+let result = str.substring(0, 21); //"Мне нравится изучать";
+alert(`${result} ${str.substring(21, 29)} ${str2}`);
 
 //Условные и логические операторы
 
@@ -298,25 +300,45 @@ if (!number){
 //10
 let password = "polinaiscool";
 let answer = prompt("what is the password?");
-if (answer === password){
-    alert("success!")
-}
-else {
-    while (answer !== password){
-        answer = prompt("what is the password?");
-        if (!answer){
-            let isQuit = confirm("are you sure you want to cancel authorization?");
-            //!isQuit ? answer = prompt("what is the password?"): alert("you canceled authorization "); break;
-            if (!isQuit){
-                answer = prompt("what is the password?");
-            }
-            else {
+if (password !== answer){
+    while (password !== answer) {
+        if (!answer) {
+            let isQuit = confirm("are you sure you want to cancel?");
+            if (isQuit) {
                 alert("you canceled authorization ");
                 break;
+            } else {
+                answer = prompt("what is the password?");
             }
+        } else {
+            answer = prompt("what is the password?");
         }
     }
 }
+else if (password === answer){
+    alert("success!")
+}
+
+
+// if (answer === password){
+//     alert("success!")
+// }
+// else {
+//     while (answer !== password){
+//         answer = prompt("what is the password?");
+//         if (!answer){
+//             let isQuit = confirm("are you sure you want to cancel authorization?");
+//             //!isQuit ? answer = prompt("what is the password?"): alert("you canceled authorization "); break;
+//             if (!isQuit){
+//                 answer = prompt("what is the password?");
+//             }
+//             else {
+//                 alert("you canceled authorization ");
+//                 break;
+//             }
+//         }
+//     }
+// }
 
 //11
 for (let i = 1; i <= 50; i++){
