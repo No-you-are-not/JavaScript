@@ -63,9 +63,10 @@ let str2 = prompt("what else do you like to study?");
 if ((str.toLowerCase()).includes(str2.toLowerCase())){
     alert("you've already said it");
 }
-let result = str.substring(0, 21); //"Мне нравится изучать";
-alert(`${result} ${str.substring(21, 29)} ${str2}`);
-
+else {
+    let result = str.substring(0, 21); //"Мне нравится изучать";
+    alert(`${result} ${str.substring(21, 30)}, ${str2}`);
+}
 //Условные и логические операторы
 
 //1
@@ -318,27 +319,6 @@ if (password !== answer){
 else if (password === answer){
     alert("success!")
 }
-
-
-// if (answer === password){
-//     alert("success!")
-// }
-// else {
-//     while (answer !== password){
-//         answer = prompt("what is the password?");
-//         if (!answer){
-//             let isQuit = confirm("are you sure you want to cancel authorization?");
-//             //!isQuit ? answer = prompt("what is the password?"): alert("you canceled authorization "); break;
-//             if (!isQuit){
-//                 answer = prompt("what is the password?");
-//             }
-//             else {
-//                 alert("you canceled authorization ");
-//                 break;
-//             }
-//         }
-//     }
-// }
 
 //11
 for (let i = 1; i <= 50; i++){
