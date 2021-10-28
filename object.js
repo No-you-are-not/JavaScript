@@ -102,7 +102,7 @@ if (newKey in person) {
 } else {
     person[newKey] = prompt('Введите значение вашего свойства');
     alert(`${newKey}:${person[newKey]}`);
-};
+}
 
 //6
 let phone = {}
@@ -367,3 +367,5 @@ console.log(hello('boss'))
 
 let count = createAdder(5);
 console.log(count(4));
+
+
