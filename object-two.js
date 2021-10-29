@@ -517,6 +517,7 @@ for (let val of fields){
 
 console.log(result)
 
+//-------- creates array only of objects with any fields
 // let result = fields.filter(value => Object.keys(value).length > 0).map(value => value);
 // console.log(result);
 
