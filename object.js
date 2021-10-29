@@ -450,20 +450,31 @@ for (let i = 0; i < objects.length; i++){
 console.log(result)
 
 //3
+//---------- 1 for
 let result = {};
 
 for (let i = 0; i < objects.length; i++){
     let year = objects[i].date.split('-')[2];
     result[year] = {};
-    //let month =  objects[i].date.split('-')[1];
     for (let j = 0; j < objects.length; j++){
-        if (+(objects[j].date.split('-')[2]) === +year){
+        if (objects[j].date.split('-')[2] === year){
             let month =  objects[j].date.split('-')[1]
-            result[year][month] = objects[j];
+            result[year][month] = [];
+            for (let k = 0; k < objects.length; k++){
+                if (objects[k].date.split('-')[1] === month){
+                    result[year][month].push(objects[k]);
+                }
+            }
         }
     }
 }
 console.log(result)
+
+//---------- 2 map()
+
+//---------- 3 reduce()
+
+//---------- 4 forEach()
 
 
 //4
@@ -476,7 +487,7 @@ for (let i = 0; i < objects.length; i++){
     }
 }
 
-console.log(result)
+// console.log(result)
 
 //5
 let result = [];
@@ -486,9 +497,11 @@ for (let i = 0; i < objects.length; i++){
     }
 }
 
-console.log(result)
+// console.log(result)
 
 //6
+
+//---------- 1 for
 let result = {};
 
 for (let i = 0; i < objects.length; i++){
@@ -502,8 +515,45 @@ for (let i = 0; i < objects.length; i++){
     }
 }
 
-console.log(result)
+// console.log(result)
+
+//---------- 2 map()
+let result ={};
+for (let val of objects){
+    if (val.relation){
+        result[val.relation.relationId] = objects.filter((value) => (value.relation && value.relation.relationId === val.relation.relationId)).map((value => value))
+    }
+}
+
+//---------- 3 reduce()
+let result = {};
+for (let val of objects){
+    if (val.relation){
+        result[val.relation.relationId] = objects.reduce((total, value) => {
+            if (value.relation && value.relation.relationId === val.relation.relationId){
+                total.push(value);
+            }
+            return total;
+        }, [])
+    }
+}
+
+//---------- 4 forEach()
+let result = {};
+for (let val of objects){
+    if (val.relation){
+        result[val.relation.relationId] = [];
+        objects.forEach((value) => {
+            if (value.relation && value.relation.relationId === val.relation.relationId){
+                result[val.relation.relationId].push(value);
+            }
+        })
+    }
+}
+
 //7
+
+//---------- 1 for
 let result =[];
 for (let i = 0; i < objects.length; i++){
     if (objects[i].date.split('-')[2] == 2020){
@@ -513,6 +563,25 @@ for (let i = 0; i < objects.length; i++){
 }
 
 console.log(result);
+
+//---------- 2 map()
+let result = objects.filter( (val) => +val.date.split('-')[2] === 2020).map( (val) => val)
+
+---------- 3 reduce()
+let result = objects.reduce((total,value) => {
+    if (value.date.split('-')[2] === '2020'){
+        total.push(value);
+    }
+    return total;
+}, [])
+
+//---------- 4 forEach()
+let result = [];
+objects.forEach((value) => {
+    if (value.date.split('-')[2] === '2020'){
+        result.push(value);
+    }
+})
 
 //8
 function task(objects) {
