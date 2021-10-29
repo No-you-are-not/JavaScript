@@ -472,6 +472,28 @@ for (let outerValue of objects){
 console.log(result)
 
 //---------- 2 map()
+let result = {}
+
+let yearEl = objects.map((value) => {
+    for (let val of objects){
+        let year = val.date.split('-')[2];
+        if (value.date.split('-')[2] === year){
+            result[year] = {};
+            let monthEl = objects.map((valuem) => {
+                if (value.date.split('-')[2] === valuem.date.split('-')[2]){
+                    result[year][valuem.date.split('-')[1]] = [];
+                    let objArr = objects.map((valuef) => {
+                        if (valuef.date.split('-')[2] === value.date.split('-')[2] && valuef.date.split('-')[1] === valuem.date.split('-')[1]){
+                            result[year][valuem.date.split('-')[1]].push(valuef);
+                        }
+                    })
+                }
+            })
+        }
+    }
+})
+
+console.log(result)
 
 //---------- 3 reduce()
 let finalResult = objects.reduce((result, value) => {
@@ -491,7 +513,6 @@ let finalResult = objects.reduce((result, value) => {
 
 console.log(finalResult)
 
-//---------- 4 forEach()
 
 
 //4
