@@ -453,26 +453,43 @@ console.log(result)
 //---------- 1 for
 let result = {};
 
-for (let i = 0; i < objects.length; i++){
-    let year = objects[i].date.split('-')[2];
+for (let outerValue of objects){
+    let year = outerValue.date.split('-')[2];
     result[year] = {};
-    for (let j = 0; j < objects.length; j++){
-        if (objects[j].date.split('-')[2] === year){
-            let month =  objects[j].date.split('-')[1]
+    for (let innerValue of objects){
+        if (innerValue.date.split('-')[2] === year){
+            let month =  innerValue.date.split('-')[1]
             result[year][month] = [];
-            for (let k = 0; k < objects.length; k++){
-                if (objects[k].date.split('-')[1] === month){
-                    result[year][month].push(objects[k]);
+            for (let lastValue of objects){
+                if (lastValue.date.split('-')[1] === month && lastValue.date.split('-')[2] === year){
+                    result[year][month].push(lastValue);
                 }
             }
         }
     }
 }
+
 console.log(result)
 
 //---------- 2 map()
 
 //---------- 3 reduce()
+let finalResult = objects.reduce((result, value) => {
+    result[value.date.split('-')[2]] = objects.reduce((month, valuem) => {
+        if (valuem.date.split('-')[2] === value.date.split('-')[2]){
+            month[valuem.date.split('-')[1]] = objects.reduce((final, valuef) => {
+                if (valuef.date.split('-')[1] === valuem.date.split('-')[1] && valuef.date.split('-')[2] === value.date.split('-')[2]){
+                    final.push(valuef);
+                }
+                return final;
+            }, [])
+        }
+        return month;
+    }, {})
+    return result;
+}, {})
+
+console.log(finalResult)
 
 //---------- 4 forEach()
 
