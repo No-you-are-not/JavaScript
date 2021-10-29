@@ -71,7 +71,7 @@ let person = {
     phone: "iphone",
 }
 
-//-------- 1
+//-------- 1 the value is given
 let newValue = prompt("enter your value for 'person'");
 let isEqual;
 for (let key in person){
@@ -94,7 +94,7 @@ else {
     alert('already exists')
 }
 
-// --------- 2
+// --------- 2 the key is given
 
 let newKey = prompt("enter your key for 'person'");
 if (newKey in person) {
@@ -112,46 +112,31 @@ phone.color = prompt("what is your phone color?");
 phone.resolution = prompt("what is your phone resolution?");
 person.phone = phone;
 
-//7  ------- NOT DONE
-// let currentDateval = new Date();
-// let yearAgoDateval = new Date();
-// yearAgoDateval.setDate(new Date().getDate()-365);
-// let userDate = new Date("2019-08-10");
-// let date = {
-//     currentDate: currentDateval,
-//     yearAgoDate: yearAgoDateval,
-// }
-//
-// if (currentDateval > userDate && userDate < yearAgoDateval){
-//     console.log("win")
-// }
-// else {
-//     console.log("loose")
-// }
-//
-// console.log(userDate);
-// console.log(currentDateval)
+//7
+let date = {};
+let currentDateval = new Date();
+let yearAgoDateval = new Date();
+yearAgoDateval.setDate(new Date().getDate()-365);
+let userDate = prompt("enter date in format yyyy-mm-dd");
+date.currentDate = currentDateval;
+date.yearAgoDate = yearAgoDateval;
+date.userDate = userDate;
+
+function dateIntoNumber (date){
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDay()
+    return `${year}${month}${day}`;
+}
 
 
-// let currentDateval = new Date();
-// let yearAgoval = new Date();
-// yearAgoval.setDate(new Date().getDate()-365);
-// let data = {
-//     currentDate: currentDateval,
-//     yearAgo: yearAgoval,
-// }
-//
-// let userDate = prompt("enter date in format yyyy-mm-dd");
-// if (new Date(userDate) < data.yearAgo && new Date(userDate) < data.currentDate){
-//     alert("the date is correct")
-// }
-// else {
-//     alert("incorrect")
-// }
-// let test = new Date("2020-11-10");
-// console.log(test)
-// console.log(new Date())
-// console.log(yearAgoval > test)
+if (dateIntoNumber(date.currentDate) > dateIntoNumber(date.userDate) && dateIntoNumber(date.userDate) > dateIntoNumber(date.yearAgoDate)){
+    alert("success");
+}
+else {
+    alert("wrong");
+}
+
 
 //8
 function fillArray(){
