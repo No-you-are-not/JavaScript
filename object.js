@@ -559,7 +559,7 @@ for (let i = 0; i < objects.length; i++){
 let result ={};
 for (let val of objects){
     if (val.relation){
-        result[val.relation.relationId] = objects.filter((value) => (value.relation && value.relation.relationId === val.relation.relationId)).map((value => value))
+        result[val.relation.relationId] = objects.filter((value) => (value.relation && value.relation.relationId === val.relation.relationId))
     }
 }
 
