@@ -59,6 +59,7 @@ function elementMove(arr, fromIndex, toIndex) {
     arr.splice(toIndex, 0, element);
 }
 elementMove(arr, arr.indexOf("однажды"), -3)
+elementMove(arr, arr.indexOf("фонарь"), arr.length-1)
 str = arr.join(" ");
 alert(str);
 
@@ -281,11 +282,7 @@ function myShift(array){
         if (index > 0){
             return element
         }
-    }).filter(function (element){
-        if (element){
-            return element;
-        }
-    })
+    }).filter(Boolean)
 
 }
 
