@@ -440,14 +440,16 @@ const objSorted = [...objects].sort((a,b) =>{
 console.log(objSorted)
 
 //2
-let result = [];
-for (let i = 0; i < objects.length; i++){
-    if (objects[i].enabled){
-        result.push(objects[i]);
-    }
-}
 
-console.log(result)
+let result = objects.filter(({enabled}) => enabled)
+// let result = [];
+// for (let i = 0; i < objects.length; i++){
+//     if (objects[i].enabled){
+//         result.push(objects[i]);
+//     }
+// }
+//
+// console.log(result)
 
 //3
 //---------- 1 for
@@ -516,24 +518,37 @@ console.log(finalResult)
 
 
 //4
-let result = [];
-for (let i = 0; i < objects.length; i++){
-    if (objects[i].relation){
-        let indexRelation = objects[i].relation.relationId;
-        objects[i].relation.relationId = objects[indexRelation];
-        result.push(objects[i]);
+
+let result = objects.reduce((arr, val) => {
+    if (val.relation){
+        let obj = objects.find(({id}) => id === val.relation.relationId);
+        val.relation.relationId = obj;
+        arr.push(val)
     }
-}
+    return arr;
+}, [])
+
+// let result = [];
+// for (let i = 0; i < objects.length; i++){
+//     if (objects[i].relation){
+//         let indexRelation = objects[i].relation.relationId;
+//         objects[i].relation.relationId = objects[indexRelation];
+//         result.push(objects[i]);
+//     }
+// }
 
 // console.log(result)
 
 //5
-let result = [];
-for (let i = 0; i < objects.length; i++){
-    if (objects[i].relation){
-        result.push(objects[i]);
-    }
-}
+
+let result = objects.filter(({relation}) => relation)
+
+// let result = [];
+// for (let i = 0; i < objects.length; i++){
+//     if (objects[i].relation){
+//         result.push(objects[i]);
+//     }
+// }
 
 // console.log(result)
 
@@ -593,19 +608,19 @@ objects.forEach((val) => {
 
 //---------- 1 for
 let result =[];
-for (let i = 0; i < objects.length; i++){
-    if (objects[i].date.split('-')[2] == 2020){
-        objects[i].enabled = true;
-        result.push(objects[i]);
+for (let val of objects){
+    if (val.date.split('-')[2] == 2020){
+        val.enabled = true;
+        result.push(val);
     }
 }
 
 console.log(result);
 
-//---------- 2 map()
+//---------- 2 filter()
 let result = objects.filter( (val) => +val.date.split('-')[2] === 2020)
 
----------- 3 reduce()
+//---------- 3 reduce()
 let result = objects.reduce((total,value) => {
     if (value.date.split('-')[2] === '2020'){
         total.push(value);
@@ -622,23 +637,32 @@ objects.forEach((value) => {
 })
 
 //8
-function task(objects) {
-    let result = [];
-    for (let i = 0; i < objects.length; i++) {
-        if (!objects[i].relation) {
-            objects[i].enabled = false;
-            result.push(objects[i]);
-        }
-        else {
-            let id = objects[i].relation.relationId;
-            let newEnabled = objects[id-1].enabled;
-            objects[i].enabled = newEnabled;
-            result.push(objects[i]);
-        }
+
+let result = objects.map((val) => {
+    if (val.relation){
+        let obj = objects.find(({id}) => id === val.relation.relationId);
+        return { ...val, enabled: obj.enabled}
     }
-    return result;
-}
-console.log(task(objects))
+    return { ...val, enabled: false}
+})
+
+// function task(objects) {
+//     let result = [];
+//     for (let i = 0; i < objects.length; i++) {
+//         if (!objects[i].relation) {
+//             objects[i].enabled = false;
+//             result.push(objects[i]);
+//         }
+//         else {
+//             let id = objects[i].relation.relationId;
+//             let newEnabled = objects[id-1].enabled;
+//             objects[i].enabled = newEnabled;
+//             result.push(objects[i]);
+//         }
+//     }
+//     return result;
+// }
+// console.log(task(objects))
 
 //9
 let result;
