@@ -430,72 +430,83 @@ const fields = [
     }
 ];
 
+
 //1
-let result = fields.filter((val) => val.permissions.view).map((value => value));
+let result = fields.filter((val) => val.permissions.view);
 console.log(result)
 
-let result = fields.reduce((arr,value) => {
-    if (value.permissions.view){
-        arr.push(value);
-    }
-    return arr;
-}, [])
-console.log(result);
 
 //2
-let result = fields.filter((val) => !val.permissions.view && !val.permissions.edit && !val.permissions.remove).map((value => value));
+let result = fields.filter((val) => !val.permissions.view && !val.permissions.edit && !val.permissions.remove);
 console.log(result)
 
-let result = fields.reduce((arr,value) => {
-    if (!value.permissions.view && !value.permissions.edit && !value.permissions.remove){
-        arr.push(value);
-    }
-    return arr;
-}, [])
-console.log(result);
 
 //3
 let result = fields.map((value) => {
     if (value.objectRelation){
-        value.objectRelation.objectId = objects[(value.objectRelation.objectId)-1];
-        return value;
+        let obj = objects.find(({id}) => id === value.objectRelation.objectId)
+        return { ...value, objectRelation: {objectId: obj} }
     }
     return value;
 })
 console.log(result)
 
+// let result = fields.map((value) => {
+//     if (value.objectRelation){
+//         value.objectRelation.objectId = objects[(value.objectRelation.objectId)-1];
+//         return value;
+//     }
+//     return value;
+// })
+
+
 //4
-let result = fields.map((value) =>{
-    if (!value.objectRelation){
-        return value;
-    }
-    else{
-        for (let val of objects){
-            if (value.objectRelation.objectId === val.id && val.enabled){
-                value.permissions.view = true;
-                value.permissions.edit = true;
-                value.permissions.remove = true;
-                return value;
-            }
-            else if (value.objectRelation.objectId === val.id){
-                value.permissions.view = false;
-                value.permissions.edit = false;
-                value.permissions.remove = false;
-                return value;
-            }
+let result = fields.reduce((arr, val) => {
+    if (val.objectRelation){
+        let obj = objects.find(({id}) => id === val.objectRelation.objectId);
+        if (obj.enabled){
+            return [ ...arr,{ ...val, permissions:{view: true, edit: true, remove: true}}]
+        }
+        else {
+            return [ ...arr,{ ...val, permissions:{view: false, edit: false, remove: false}}]
         }
     }
-})
+    else {
+        return arr;
+    }
+}, [])
 
 console.log(result)
+// let result = fields.map((value) =>{
+//     if (!value.objectRelation){
+//         return value;
+//     }
+//     else{
+//         for (let val of objects){
+//             if (value.objectRelation.objectId === val.id && val.enabled){
+//                 value.permissions.view = true;
+//                 value.permissions.edit = true;
+//                 value.permissions.remove = true;
+//                 return value;
+//             }
+//             else if (value.objectRelation.objectId === val.id){
+//                 value.permissions.view = false;
+//                 value.permissions.edit = false;
+//                 value.permissions.remove = false;
+//                 return value;
+//             }
+//         }
+//     }
+// })
+
 
 //5
 let result = [];
 let ids = fields.reduce((ids, value) => {
     if (value.objectRelation && !(ids.includes(value.objectRelation.objectId))){
-        ids.push(value.objectRelation.objectId)
+        return [ ...ids, value.objectRelation.objectId]
     }
-    return ids
+    return ids;
 }, []);
 
 for (let value of objects){
@@ -505,29 +516,6 @@ for (let value of objects){
 }
 console.log(result)
 
-
-for (let val of fields){
-    if (val.objectRelation){
-        if (!(ids.includes(val.objectRelation.objectId))){
-            ids.push(val.objectRelation.objectId)
-        }
-    }
-    console.log(ids);
-}
-
-console.log(result)
-
-//-------- creates array only of objects with any fields
-// let result = fields.filter(value => Object.keys(value).length > 0).map(value => value);
-// console.log(result);
-
-// let result = fields.reduce((arr,value) => {
-//     if (Object.keys(value).length > 0){
-//         arr.push(value);
-//     }
-//     return arr;
-// }, [])
-// console.log(result);
 
 //6
 let result = {};
@@ -546,21 +534,42 @@ for (let val of fields){
 
 console.log(result);
 
+
 //7
 let result = fields.map((value) => {
     if ( value.permissions.view){
-        value.permissions.edit = true;
+        return { ...value, permissions:{ ...value.permissions, edit: true}}
     }
-    return value;
+    return { ...value};
 } )
 console.log(result)
 
+// let result = fields.map((value) => {
+//     if ( value.permissions.view){
+//         value.permissions.edit = true;
+//     }
+//     return value;
+// } )
+// console.log(result)
+
+
 //8
-let result = fields.filter(value => value.objectRelation).map((value) =>{
-    value.relations = true;
-    return value;
-} )
-console.log(result)
+let final = fields.reduce((obj, value) =>{
+    if (value.objectRelation){
+        value.relations = true;
+        obj.push(value)
+    }
+    return obj;
+},[])
+
+console.log(final)
+
+// let result = fields.filter(value => value.objectRelation).map((value) =>{
+//     value.relations = true;
+//     return value;
+// } )
+// console.log(result)
+
 
 //9
 let result = fields.sort((a,b) =>{
@@ -571,14 +580,19 @@ let result = fields.sort((a,b) =>{
 
 console.log(result)
 
+
 //10
-let result;
-for (let val of fields){
-    if (val.permissions.edit && val.permissions.view && val.permissions.remove){
-       result = true;
-       break;
-    }
-    else result = false;
-}
+let result = fields.some((value) => value.permissions.edit && value.permissions.view && value.permissions.remove)
 
 console.log(result)
+
+// let result;
+// for (let val of fields){
+//     if (val.permissions.edit && val.permissions.view && val.permissions.remove){
+//        result = true;
+//        break;
+//     }
+//     else result = false;
+// }
+//
+// console.log(result)
