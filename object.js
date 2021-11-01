@@ -442,7 +442,7 @@ console.log(objSorted)
 //2
 let result = [];
 for (let i = 0; i < objects.length; i++){
-    if (objects[i].enabled === true){
+    if (objects[i].enabled){
         result.push(objects[i]);
     }
 }
@@ -565,7 +565,7 @@ for (let val of objects){
 
 //---------- 3 reduce()
 let result = {};
-for (let val of objects){
+objects.reduce((fin,val) => {
     if (val.relation){
         result[val.relation.relationId] = objects.reduce((total, value) => {
             if (value.relation && value.relation.relationId === val.relation.relationId){
@@ -574,11 +574,11 @@ for (let val of objects){
             return total;
         }, [])
     }
-}
+},{})
 
 //---------- 4 forEach()
 let result = {};
-for (let val of objects){
+objects.forEach((val) => {
     if (val.relation){
         result[val.relation.relationId] = [];
         objects.forEach((value) => {
@@ -587,7 +587,7 @@ for (let val of objects){
             }
         })
     }
-}
+})
 
 //7
 
@@ -603,7 +603,7 @@ for (let i = 0; i < objects.length; i++){
 console.log(result);
 
 //---------- 2 map()
-let result = objects.filter( (val) => +val.date.split('-')[2] === 2020).map( (val) => val)
+let result = objects.filter( (val) => +val.date.split('-')[2] === 2020)
 
 ---------- 3 reduce()
 let result = objects.reduce((total,value) => {
@@ -642,28 +642,19 @@ console.log(task(objects))
 
 //9
 let result;
-for (let i = 0; i < objects.length; i++){
-    if (objects[i].relation){
-        result = true;
-    }
-    else {
-        result = false;
-        break;
-    }
+
+function isRelate (val){
+    return val.relation;
 }
 
-console.log(result);
+result = objects.every(isRelate);
+console.log(result)
 
 //10
 let result;
-for (let i = 0; i < objects.length; i++){
-if (objects[i].enabled){
-    result = true;
-    break;
-}
-else {
-    result = false;
-}
+function isEnabledTRue(val){
+    return val.enabled;
 }
 
+result = objects.some(isEnabledTRue);
 console.log(result);
