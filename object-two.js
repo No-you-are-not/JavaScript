@@ -525,10 +525,11 @@ let result = fields.reduce((obj, val) => {
         let idObj = {}
         idObj[val.id] = val.permissions;
         if(obj[id]){
-            obj[id].push(idObj)
+            return { ...obj, [id]: [ ...obj[id], idObj]}
+            //obj[id].push(idObj)
         }
         else {
-            obj[id] =[idObj];
+            return { ...obj, [id]: [idObj]}
         }
     }
     return obj;
