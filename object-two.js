@@ -518,21 +518,39 @@ console.log(result)
 
 
 //6
-let result = {};
-for (let val of fields){
+
+let result = fields.reduce((obj, val) => {
     if (val.objectRelation){
-        result[val.objectRelation.objectId] = [];
-        for (let value of fields){
-            if (value.objectRelation && value.objectRelation.objectId === val.objectRelation.objectId){
-                let newObj = {};
-                newObj[value.id] = value.permissions;
-                result[val.objectRelation.objectId].push(newObj);
-            }
+        let id = val.objectRelation.objectId
+        let idObj = {}
+        idObj[val.id] = val.permissions;
+        if(obj[id]){
+            obj[id].push(idObj)
+        }
+        else {
+            obj[id] =[idObj];
         }
     }
-}
+    return obj;
+}, {})
 
-console.log(result);
+console.log(result)
+
+// let result = {};
+// for (let val of fields){
+//     if (val.objectRelation){
+//         result[val.objectRelation.objectId] = [];
+//         for (let value of fields){
+//             if (value.objectRelation && value.objectRelation.objectId === val.objectRelation.objectId){
+//                 let newObj = {};
+//                 newObj[value.id] = value.permissions;
+//                 result[val.objectRelation.objectId].push(newObj);
+//             }
+//         }
+//     }
+// }
+//
+// console.log(result);
 
 
 //7
@@ -540,7 +558,7 @@ let result = fields.map((value) => {
     if ( value.permissions.view){
         return { ...value, permissions:{ ...value.permissions, edit: true}}
     }
-    return { ...value};
+    return value;
 } )
 console.log(result)
 
